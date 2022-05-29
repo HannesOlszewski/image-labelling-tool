@@ -27,23 +27,49 @@ function setDisplayedImage(imageName) {
 }
 
 async function fillImageList() {
-  const path = getCurrentImagesPath();
-
-  if (!path) {
-    return;
-  }
-
-  const images = (await window.api.getImagesList(path)) ?? [];
+  const images = (await window.api.getImagesList()) ?? [];
+  const labelledImages = (await window.api.getLabelledImages()) ?? [];
   const imagesList = document.getElementById("images-list");
   imagesList.innerHTML = "";
 
   images.forEach((image) => {
     const imageItem = document.createElement("li");
+    const imageNameItem = document.createElement("span");
+    imageNameItem.textContent = image;
 
-    imageItem.innerHTML = image;
+    imageItem.appendChild(imageNameItem);
+
     imageItem.className =
       "w-full px-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none";
     imageItem.id = image;
+
+    const badgeItem = document.createElement("span");
+    badgeItem.className = "text-xs font-semibold px-2.5 py-0.5 rounded ml-2";
+
+    const labelledImage = labelledImages.find(
+      (labelledImage) => labelledImage.path === image
+    );
+
+    if (labelledImage) {
+      if (labelledImage.labels.length === 0) {
+        badgeItem.textContent = "No labels";
+      } else {
+        badgeItem.textContent = `${labelledImage.labels.length} label${
+          labelledImage.labels.length > 1 ? "s" : ""
+        }`;
+      }
+
+      console.log(labelledImage);
+
+      badgeItem.className +=
+        " bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-300";
+    } else {
+      badgeItem.textContent = "Unlabelled";
+      badgeItem.className +=
+        " bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
+    }
+
+    imageItem.appendChild(badgeItem);
 
     imageItem.addEventListener("click", () => {
       setDisplayedImage(image);
@@ -94,3 +120,24 @@ function handleKeyPress(event) {
 }
 
 window.addEventListener("keyup", handleKeyPress, true);
+
+document.getElementById("save-image").addEventListener("click", async () => {
+  const imageName = document.getElementById("displayed-image-name").innerText;
+  const imageClasses = [];
+
+  for (let i = 1; i <= 9; i++) {
+    const classElement = document.getElementById(`checkbox-class-${i}`);
+
+    if (classElement.checked) {
+      imageClasses.push(i);
+    }
+  }
+
+  await window.api.setLabelsForImage(imageName, imageClasses);
+  await fillImageList();
+  const images = (await window.api.getImagesList()) ?? [];
+  const imageIndex = images.indexOf(imageName);
+  const nextImage =
+    imageIndex < images.length - 1 ? images[imageIndex + 1] : images[0];
+  await setDisplayedImage(nextImage);
+});
