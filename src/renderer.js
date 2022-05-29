@@ -1,5 +1,33 @@
+function getCurrentImagesPath() {
+  return document.getElementById("images-path").value;
+}
+
+function setDisplayedImage(imageName) {
+  const basePath = getCurrentImagesPath();
+
+  if (
+    !basePath ||
+    basePath.length === 0 ||
+    !imageName ||
+    imageName.length === 0
+  ) {
+    return;
+  }
+
+  const imageElement = document.getElementById("displayed-image");
+
+  imageElement.src = `app://${basePath}/${imageName}`;
+  imageElement.className = imageElement.className.replace(
+    "invisible",
+    "visible"
+  );
+
+  const imageNameElement = document.getElementById("displayed-image-name");
+  imageNameElement.innerText = imageName;
+}
+
 async function fillImageList() {
-  const path = document.getElementById("images-path").value;
+  const path = getCurrentImagesPath();
 
   if (!path) {
     return;
@@ -18,7 +46,7 @@ async function fillImageList() {
     imageItem.id = image;
 
     imageItem.addEventListener("click", () => {
-      console.log(image);
+      setDisplayedImage(image);
     });
 
     imagesList.appendChild(imageItem);
