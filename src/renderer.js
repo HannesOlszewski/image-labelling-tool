@@ -131,6 +131,24 @@ function handleKeyPress(event) {
 
 window.addEventListener("keyup", handleKeyPress, true);
 
+async function displayNextImage() {
+  const imageName = document.getElementById("displayed-image-name").innerText;
+  const images = (await window.api.getImagesList()) ?? [];
+  const imageIndex = images.indexOf(imageName);
+  const nextImage =
+    imageIndex < images.length - 1 ? images[imageIndex + 1] : images[0];
+  await setDisplayedImage(nextImage);
+}
+
+async function displayPreviousImage() {
+  const imageName = document.getElementById("displayed-image-name").innerText;
+  const images = (await window.api.getImagesList()) ?? [];
+  const imageIndex = images.indexOf(imageName);
+  const previousImage =
+    imageIndex > 0 ? images[imageIndex - 1] : images[images.length - 1];
+  await setDisplayedImage(previousImage);
+}
+
 document.getElementById("save-image").addEventListener("click", async () => {
   const imageName = document.getElementById("displayed-image-name").innerText;
   const imageClasses = [];
@@ -145,9 +163,13 @@ document.getElementById("save-image").addEventListener("click", async () => {
 
   await window.api.setLabelsForImage(imageName, imageClasses);
   await fillImageList();
-  const images = (await window.api.getImagesList()) ?? [];
-  const imageIndex = images.indexOf(imageName);
-  const nextImage =
-    imageIndex < images.length - 1 ? images[imageIndex + 1] : images[0];
-  await setDisplayedImage(nextImage);
+  await displayNextImage();
 });
+
+document
+  .getElementById("next-image")
+  .addEventListener("click", displayNextImage);
+
+document
+  .getElementById("previous-image")
+  .addEventListener("click", displayPreviousImage);
