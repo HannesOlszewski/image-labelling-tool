@@ -78,3 +78,19 @@ window.addEventListener("load", async () => {
     await window.api.getImagesPath();
   await fillImageList();
 });
+
+function handleKeyPress(event) {
+  const numericKey = Number.parseInt(event.key);
+
+  if (Number.isInteger(numericKey) && numericKey >= 1 && numericKey <= 9) {
+    const classElement = document.getElementById(
+      `checkbox-class-${numericKey}`
+    );
+
+    if (classElement) {
+      classElement.checked = !classElement.checked;
+    }
+  }
+}
+
+window.addEventListener("keyup", handleKeyPress, true);
