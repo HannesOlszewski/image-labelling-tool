@@ -29,7 +29,8 @@
     "tailwindcss": "3.0.24"
   },
   "dependencies": {
-    "electron-squirrel-startup": "1.0.0"
+    "electron-squirrel-startup": "1.0.0",
+    "electron-store": "8.0.1"
   },
   "config": {
     "forge": {
