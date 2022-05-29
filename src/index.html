@@ -4,14 +4,34 @@
   <meta charset="UTF-8">
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-  <title>Hello World!</title>
+  <title>Image labelling tool</title>
   <link href="../dist/index.css" rel="stylesheet">
 </head>
 <body>
-<h1 id="title" class="text-3xl font-bold underline">Hello World!</h1>
-We are using Node.js <span id="node-version"></span>,
-Chromium <span id="chrome-version"></span>,
-and Electron <span id="electron-version"></span>.
+<div id="app" class="flex flex-row h-screen bg-slate-100">
+  <div class="flex flex-col gap-8 p-8">
+    <div class="flex flex-row items-end gap-2" onsubmit="preventDefault();">
+      <div>
+        <label for="images-path" class="block text-sm font-medium text-gray-700">Path to images</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <input type="text" name="images-path" id="images-path"
+                 class="focus:ring-blue-300 focus:border-blue-300 block w-full px-5 sm:text-sm border-gray-300 rounded-md"
+                 placeholder="Enter absolute path...">
+        </div>
+      </div>
+      <button type="button" id="images-path-select"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        Choose
+      </button>
+    </div>
+    <ul class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white overflow-auto" id="images-list">
+      <li class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none">No images found</li>
+    </ul>
+  </div>
+  <div class="flex flex-col p-8 grow bg-white rounded-l-3xl shadow-sm">
+    Right column
+  </div>
+</div>
 <script src="./renderer.js"></script>
 </body>
 </html>
