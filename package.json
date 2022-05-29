@@ -1,0 +1,9 @@
+{
+  "name": "image-classification-tool",
+  "version": "0.0.0",
+  "description": "A tool to help label images for classification.",
+  "main": "src/main.js",
+  "author": "Hannes Olszewski",
+  "license": "MIT",
+  "packageManager": "yarn@3.2.1"
+}

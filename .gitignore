@@ -1,0 +1,30 @@
+# JetBrains IntelliJ
+.idea/
+
+# Logs
+logs
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional eslint cache
+.eslintcache
+
+# Yarn Integrity file
+.yarn-integrity
+
+# yarn v2 with zero-installs
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
