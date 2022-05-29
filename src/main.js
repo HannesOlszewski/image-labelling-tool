@@ -42,9 +42,12 @@ ipcMain.on("select-images-path", async (event) => {
     properties: ["openDirectory"],
   });
 
-  [imagesPath] = result.filePaths;
+  const [selectedPath] = result.filePaths;
 
-  event.sender.send("select-images-path-result", imagesPath);
+  if (selectedPath) {
+    imagesPath = selectedPath;
+    event.sender.send("select-images-path-result", imagesPath);
+  }
 });
 
 ipcMain.on("get-images-path", (event) => {
