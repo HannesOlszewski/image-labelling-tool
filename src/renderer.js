@@ -2,7 +2,7 @@ function getCurrentImagesPath() {
   return document.getElementById("images-path").value;
 }
 
-function setDisplayedImage(imageName) {
+async function setDisplayedImage(imageName) {
   const basePath = getCurrentImagesPath();
 
   if (
@@ -24,6 +24,16 @@ function setDisplayedImage(imageName) {
 
   const imageNameElement = document.getElementById("displayed-image-name");
   imageNameElement.innerText = imageName;
+
+  const labelledImages = (await window.api.getLabelledImages()) ?? [];
+  const labels =
+    labelledImages.find((labelledImage) => labelledImage.path === imageName)
+      ?.labels ?? [];
+
+  for (let i = 1; i <= 9; i++) {
+    const classElement = document.getElementById(`checkbox-class-${i}`);
+    classElement.checked = labels.includes(i);
+  }
 }
 
 async function fillImageList() {
