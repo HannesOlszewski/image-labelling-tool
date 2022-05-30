@@ -1,4 +1,11 @@
-const { app, BrowserWindow, dialog, ipcMain, protocol } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  protocol,
+  Menu,
+} = require("electron");
 const path = require("path");
 const fs = require("fs");
 const Store = require("electron-store");
@@ -133,3 +140,118 @@ ipcMain.on("set-labels-for-image", (event, { image, labels }) => {
 
   event.sender.send("set-labels-for-image-result", { image, labels });
 });
+
+const isMac = process.platform === "darwin";
+
+new Store().set("labels", [
+  {
+    name: "Amaretto",
+    index: 1,
+  },
+  {
+    name: "Aria",
+    index: 2,
+  },
+  {
+    name: "Chick Pea",
+    index: 3,
+  },
+  {
+    name: "Espresso",
+    index: 4,
+  },
+  {
+    name: "Lucifer",
+    index: 5,
+  },
+  {
+    name: "Oreo",
+    index: 6,
+  },
+  {
+    name: "Popcorn",
+    index: 7,
+  },
+  {
+    name: "Pumpkin",
+    index: 8,
+  },
+  {
+    name: "Whiskey",
+    index: 9,
+  },
+]);
+
+async function exportLabelledImages() {
+  const store = new Store();
+  const imagesPath = getImagesPath();
+  const exportPath = (
+    await dialog.showOpenDialog({
+      properties: ["openDirectory"],
+    })
+  ).filePaths[0];
+
+  if (!exportPath) {
+    return;
+  }
+
+  const images =
+    store.get(
+      imagesPath.length > 0 ? imagesPath.toLowerCase() : "default" + ".images"
+    ) ?? [];
+
+  const labels = store.get("labels") ?? [];
+  let copiedImages = 0;
+
+  labels.forEach((label) => {
+    const labelImages = images.filter((image) =>
+      image.labels.includes(label.index)
+    );
+
+    if (labelImages.length > 0) {
+      const labelPath = path.join(exportPath, label.name);
+
+      if (!fs.existsSync(labelPath)) {
+        fs.mkdirSync(labelPath);
+      }
+
+      labelImages.forEach((image) => {
+        const imageBasePath = path.join(imagesPath, image.path);
+        const imageExportPath = path.join(labelPath, image.path);
+
+        if (fs.existsSync(imageBasePath) && !fs.existsSync(imageExportPath)) {
+          fs.copyFileSync(imageBasePath, imageExportPath);
+          copiedImages++;
+        }
+      });
+    }
+  });
+
+  await dialog.showMessageBox({
+    type: "info",
+    title: "Export Labelled Images",
+    message: `${copiedImages} images exported to ${exportPath}`,
+  });
+}
+
+const template = [
+  { role: "appMenu" },
+  // { role: 'fileMenu' }
+  {
+    label: "File",
+    submenu: [
+      {
+        label: "&Export labelled images",
+        click: exportLabelledImages,
+        accelerator: isMac ? "Command+E" : "Ctrl+E",
+      },
+      isMac ? { role: "close" } : { role: "quit" },
+    ],
+  },
+  // { role: "editMenu" },
+  // { role: "viewMenu" },
+  // { role: "windowMenu" },
+];
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
