@@ -1,5 +1,5 @@
 {
-  "name": "image-classification-tool",
+  "name": "image-labelling-tool",
   "version": "0.0.0",
   "description": "A tool to help label images for classification.",
   "main": "src/main.js",
