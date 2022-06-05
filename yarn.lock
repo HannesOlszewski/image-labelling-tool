@@ -3169,9 +3169,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"image-classification-tool@workspace:.":
+"image-labelling-tool@workspace:.":
   version: 0.0.0-use.local
-  resolution: "image-classification-tool@workspace:."
+  resolution: "image-labelling-tool@workspace:."
   dependencies:
     "@electron-forge/cli": 6.0.0-beta.63
     "@electron-forge/maker-deb": 6.0.0-beta.63
