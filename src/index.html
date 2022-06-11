@@ -12,8 +12,8 @@
   <div class="flex flex-col gap-4 py-8 pl-8 pr-4 basis-1/3">
     <div class="flex flex-row items-end gap-2">
       <div class="w-full">
-        <label for="images-path" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Path to images</label>
-        <div class="mt-1 relative rounded-md shadow-sm">
+        <label for="images-path" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Path to images</label>
+        <div class="relative rounded-md shadow-sm">
           <input type="text" name="images-path" id="images-path"
                  class="focus:ring-blue-300 focus:border-blue-300 block w-full px-5 sm:text-sm bg-slate-50 border-gray-300 rounded-md cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                  placeholder="Select path to images..."
@@ -27,80 +27,89 @@
         Choose
       </button>
     </div>
-    <ul
-      class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white overflow-auto"
-      id="images-list">
-      <li
-        class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none">
-        No images found
-      </li>
-    </ul>
+    <div class="overflow-auto w-full rounded-lg">
+      <span class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Images</span>
+      <ul
+        class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        id="images-list">
+        <li
+          class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none">
+          No images found
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="flex flex-col py-8 pr-8 pl-4 gap-4 basis-2/3">
-    <div class="flex flex-col p-8 gap-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white grow">
-      <h3 class="text-2xl" id="displayed-image-name">No image selected</h3>
-      <div class="flex items-center w-full h-full">
-        <img class="w-full h-96 object-scale-down invisible" src="" alt="The current image" id="displayed-image">
+    <div>
+      <span class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Current image</span>
+      <div class="flex flex-col p-4 gap-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white grow">
+        <h3 class="text-2xl" id="displayed-image-name">No image selected</h3>
+        <div class="flex items-center w-full h-full">
+          <img class="w-full h-96 object-scale-down invisible" src="" alt="The current image" id="displayed-image">
+        </div>
       </div>
     </div>
-    <div class="p-8 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-      <fieldset class="flex flex-row gap-4">
-        <legend class="sr-only">Classes</legend>
+    <div>
+      <span class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Labels</span>
+      <div class="p-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        <fieldset class="flex flex-row gap-4">
+          <legend class="sr-only">Classes</legend>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-1" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Amaretto</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-1" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Amaretto</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-2" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Aria</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-2" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Aria</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-3" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-3" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Chick Pea</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-3" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-3" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Chick Pea</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-4" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-4" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Espresso</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-4" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-4" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Espresso</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-5" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-5" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Lucifer</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-5" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-5" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Lucifer</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-6" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-6" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Oreo</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-6" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-6" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Oreo</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-7" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-7" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Popcorn</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-7" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-7" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Popcorn</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-8" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-8" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pumpkin</label>
-        </div>
+          <div class="flex items-center">
+            <input id="checkbox-class-8" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-8" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pumpkin</label>
+          </div>
 
-        <div class="flex items-center">
-          <input id="checkbox-class-9" type="checkbox" value=""
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-class-9" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Whiskey</label>
-        </div>
-      </fieldset>
+          <div class="flex items-center">
+            <input id="checkbox-class-9" type="checkbox" value=""
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-class-9" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Whiskey</label>
+          </div>
+        </fieldset>
+      </div>
     </div>
     <div class="flex flex-row justify-end gap-4">
       <button type="button" id="previous-image"
