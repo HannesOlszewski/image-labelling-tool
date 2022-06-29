@@ -15,8 +15,8 @@
     "watch:css": "tailwindcss -i ./src/index.css -o ./dist/index.css --watch",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "lint": "eslint --ext .ts,.tsx . && prettier --check .",
-    "fix": "eslint --fix --ext .ts,.tsx . && prettier --write ."
+    "lint": "prettier --check . && eslint --ext .ts,.tsx .",
+    "fix": "prettier --write . && eslint --fix --ext .ts,.tsx ."
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.63",
@@ -37,6 +37,7 @@
     "eslint": "8.16.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.1.0",
     "fork-ts-checker-webpack-plugin": "7.2.11",
     "node-loader": "2.0.0",
     "postcss": "8.4.14",

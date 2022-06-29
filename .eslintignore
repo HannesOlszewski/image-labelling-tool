@@ -27,3 +27,7 @@ node_modules/
 
 # Electron-Forge
 out/
+
+# Configuration files
+/*.config.js
+/webpack.*.js

@@ -13,6 +13,7 @@
     "plugin:import/electron",
     "plugin:import/typescript"
   ],
+  "plugins": ["prettier"],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "import/extensions": [

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import { Image } from "./util";
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { Image } from './util';
 
 export interface IElectronAPI {
   selectImagesPath: () => Promise<string>;
@@ -18,7 +18,7 @@ declare global {
 }
 
 function getCurrentImagesPath() {
-  return (document.getElementById("images-path") as HTMLInputElement | null)
+  return (document.getElementById('images-path') as HTMLInputElement | null)
     .value;
 }
 
@@ -26,35 +26,34 @@ async function setDisplayedImage(imageName: string) {
   const basePath = getCurrentImagesPath();
 
   if (
-    !basePath ||
-    basePath.length === 0 ||
-    !imageName ||
-    imageName.length === 0
+    !basePath
+    || basePath.length === 0
+    || !imageName
+    || imageName.length === 0
   ) {
     return;
   }
 
   const imageElement = document.getElementById(
-    "displayed-image"
+    'displayed-image',
   ) as HTMLImageElement | null;
 
   imageElement.src = `app://${basePath}/${imageName}`;
   imageElement.className = imageElement.className.replace(
-    "invisible",
-    "visible"
+    'invisible',
+    'visible',
   );
 
-  const imageNameElement = document.getElementById("displayed-image-name");
+  const imageNameElement = document.getElementById('displayed-image-name');
   imageNameElement.innerText = imageName;
 
   const labelledImages: Image[] = (await window.api.getLabelledImages()) ?? [];
-  const labels =
-    labelledImages.find((labelledImage) => labelledImage.path === imageName)
-      ?.labels ?? [];
+  const labels = labelledImages.find((labelledImage) => labelledImage.path === imageName)
+    ?.labels ?? [];
 
   for (let i = 1; i <= 9; i += 1) {
     const classElement = document.getElementById(
-      `checkbox-class-${i}`
+      `checkbox-class-${i}`,
     ) as HTMLInputElement | null;
     classElement.checked = labels.includes(i);
   }
@@ -64,46 +63,45 @@ async function fillImageList() {
   const images: string[] = (await window.api.getImagesList()) ?? [];
   const labelledImages: Image[] = (await window.api.getLabelledImages()) ?? [];
   const imagesList = document.getElementById(
-    "images-list"
+    'images-list',
   ) as HTMLDivElement | null;
-  imagesList.innerHTML = "";
+  imagesList.innerHTML = '';
 
   images.forEach((image) => {
-    const imageItem = document.createElement("li");
-    const imageNameItem = document.createElement("span");
+    const imageItem = document.createElement('li');
+    const imageNameItem = document.createElement('span');
     imageNameItem.textContent = image;
 
     imageItem.appendChild(imageNameItem);
 
-    imageItem.className =
-      "w-full px-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none";
+    imageItem.className = 'w-full px-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none';
     imageItem.id = image;
 
-    const badgeItem = document.createElement("span");
-    badgeItem.className = "text-xs font-semibold px-2.5 py-0.5 rounded ml-2";
+    const badgeItem = document.createElement('span');
+    badgeItem.className = 'text-xs font-semibold px-2.5 py-0.5 rounded ml-2';
 
     const labelledImage = labelledImages.find((li) => li.path === image);
 
     if (labelledImage) {
       if (labelledImage.labels.length === 0) {
-        badgeItem.textContent = "No labels";
+        badgeItem.textContent = 'No labels';
       } else {
         badgeItem.textContent = `${labelledImage.labels.length} label${
-          labelledImage.labels.length > 1 ? "s" : ""
+          labelledImage.labels.length > 1 ? 's' : ''
         }`;
       }
 
-      badgeItem.className +=
-        " bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-300";
+      badgeItem.className
+        += ' bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-300';
     } else {
-      badgeItem.textContent = "Unlabelled";
-      badgeItem.className +=
-        " bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
+      badgeItem.textContent = 'Unlabelled';
+      badgeItem.className
+        += ' bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
 
     imageItem.appendChild(badgeItem);
 
-    imageItem.addEventListener("click", () => {
+    imageItem.addEventListener('click', () => {
       setDisplayedImage(image);
     });
 
@@ -111,32 +109,29 @@ async function fillImageList() {
   });
 
   if (images.length === 0) {
-    const emptyItem = document.createElement("li");
+    const emptyItem = document.createElement('li');
 
-    emptyItem.innerHTML = "No images found";
-    emptyItem.className =
-      "w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none";
-    emptyItem.id = "empty-item";
+    emptyItem.innerHTML = 'No images found';
+    emptyItem.className = 'w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-none dark:last:border-none';
+    emptyItem.id = 'empty-item';
 
     imagesList.appendChild(emptyItem);
   }
 }
 
 async function displayNextImage() {
-  const imageName = document.getElementById("displayed-image-name").innerText;
+  const imageName = document.getElementById('displayed-image-name').innerText;
   const images = (await window.api.getImagesList()) ?? [];
   const imageIndex = images.indexOf(imageName);
-  const nextImage =
-    imageIndex < images.length - 1 ? images[imageIndex + 1] : images[0];
+  const nextImage = imageIndex < images.length - 1 ? images[imageIndex + 1] : images[0];
   await setDisplayedImage(nextImage);
 }
 
 async function displayPreviousImage() {
-  const imageName = document.getElementById("displayed-image-name").innerText;
+  const imageName = document.getElementById('displayed-image-name').innerText;
   const images = (await window.api.getImagesList()) ?? [];
   const imageIndex = images.indexOf(imageName);
-  const previousImage =
-    imageIndex > 0 ? images[imageIndex - 1] : images[images.length - 1];
+  const previousImage = imageIndex > 0 ? images[imageIndex - 1] : images[images.length - 1];
   await setDisplayedImage(previousImage);
 }
 
@@ -144,7 +139,7 @@ function App() {
   useEffect(() => {
     window.api?.getImagesPath().then((value) => {
       (
-        document.getElementById("images-path") as HTMLInputElement | null
+        document.getElementById('images-path') as HTMLInputElement | null
       ).value = value;
       fillImageList();
     });
@@ -155,7 +150,7 @@ function App() {
 
     if (Number.isInteger(numericKey) && numericKey >= 1 && numericKey <= 9) {
       const classElement = document.getElementById(
-        `checkbox-class-${numericKey}`
+        `checkbox-class-${numericKey}`,
       ) as HTMLInputElement | null;
 
       if (classElement) {
@@ -199,7 +194,7 @@ function App() {
               event.preventDefault();
               (
                 document.getElementById(
-                  "images-path"
+                  'images-path',
                 ) as HTMLInputElement | null
               ).value = await window.api.selectImagesPath();
               await fillImageList();
@@ -409,13 +404,13 @@ function App() {
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             onClick={async () => {
               const imageName = document.getElementById(
-                "displayed-image-name"
+                'displayed-image-name',
               ).innerText;
               const imageClasses = [];
 
               for (let i = 1; i <= 9; i += 1) {
                 const classElement = document.getElementById(
-                  `checkbox-class-${i}`
+                  `checkbox-class-${i}`,
                 ) as HTMLInputElement | null;
 
                 if (classElement.checked) {
@@ -436,5 +431,5 @@ function App() {
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
