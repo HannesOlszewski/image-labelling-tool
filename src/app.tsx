@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Image } from './util';
+import Button from './components/Button';
 
 export interface IElectronAPI {
   selectImagesPath: () => Promise<string>;
@@ -145,19 +146,46 @@ function App() {
     });
   }, [window.api]);
 
-  function handleKeyPress(event: React.KeyboardEvent<HTMLDivElement>) {
-    const numericKey = Number.parseInt(event.key, 10);
+  const handleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const numericKey = Number.parseInt(event.key, 10);
 
-    if (Number.isInteger(numericKey) && numericKey >= 1 && numericKey <= 9) {
+      if (Number.isInteger(numericKey) && numericKey >= 1 && numericKey <= 9) {
+        const classElement = document.getElementById(
+          `checkbox-class-${numericKey}`,
+        ) as HTMLInputElement | null;
+
+        if (classElement) {
+          classElement.checked = !classElement.checked;
+        }
+      }
+    },
+    [],
+  );
+
+  const handleImagesPathSelectClick = useCallback(async () => {
+    (document.getElementById('images-path') as HTMLInputElement | null).value = await window.api.selectImagesPath();
+    await fillImageList();
+  }, [window.api, fillImageList]);
+
+  const handleSaveAndNextClick = useCallback(async () => {
+    const imageName = document.getElementById('displayed-image-name').innerText;
+    const imageClasses = [];
+
+    for (let i = 1; i <= 9; i += 1) {
       const classElement = document.getElementById(
-        `checkbox-class-${numericKey}`,
+        `checkbox-class-${i}`,
       ) as HTMLInputElement | null;
 
-      if (classElement) {
-        classElement.checked = !classElement.checked;
+      if (classElement.checked) {
+        imageClasses.push(i);
       }
     }
-  }
+
+    await window.api.setLabelsForImage(imageName, imageClasses);
+    await fillImageList();
+    await displayNextImage();
+  }, [window.api, fillImageList, displayNextImage]);
 
   return (
     <div
@@ -186,22 +214,13 @@ function App() {
               />
             </div>
           </div>
-          <button
-            type="button"
+          <Button
+            variant="primary"
+            onClick={handleImagesPathSelectClick}
             id="images-path-select"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={async (event) => {
-              event.preventDefault();
-              (
-                document.getElementById(
-                  'images-path',
-                ) as HTMLInputElement | null
-              ).value = await window.api.selectImagesPath();
-              await fillImageList();
-            }}
           >
             Choose
-          </button>
+          </Button>
         </div>
         <div className="overflow-hidden w-full rounded-lg">
           <span className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -382,49 +401,27 @@ function App() {
           </div>
         </div>
         <div className="flex flex-row justify-end gap-4">
-          <button
-            type="button"
-            id="previous-image"
-            className="text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+          <Button
+            variant="secondary"
             onClick={displayPreviousImage}
+            id="previous-image"
           >
             Previous
-          </button>
-          <button
-            type="button"
-            id="next-image"
-            className="text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+          </Button>
+          <Button
+            variant="secondary"
             onClick={displayNextImage}
+            id="next-image"
           >
             Next
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="primary"
             id="save-image"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={async () => {
-              const imageName = document.getElementById(
-                'displayed-image-name',
-              ).innerText;
-              const imageClasses = [];
-
-              for (let i = 1; i <= 9; i += 1) {
-                const classElement = document.getElementById(
-                  `checkbox-class-${i}`,
-                ) as HTMLInputElement | null;
-
-                if (classElement.checked) {
-                  imageClasses.push(i);
-                }
-              }
-
-              await window.api.setLabelsForImage(imageName, imageClasses);
-              // await fillImageList();
-              await displayNextImage();
-            }}
+            onClick={handleSaveAndNextClick}
           >
             Save and next
-          </button>
+          </Button>
         </div>
       </div>
     </div>
