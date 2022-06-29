@@ -33,3 +33,6 @@ node_modules/
 
 # Electron-Forge
 out/
+
+# MacOS
+.DS_Store
