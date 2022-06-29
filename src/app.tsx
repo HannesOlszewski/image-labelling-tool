@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Image } from './util';
 import Button from './components/Button';
+import Input from './components/Input';
 
 export interface IElectronAPI {
   selectImagesPath: () => Promise<string>;
@@ -195,25 +196,14 @@ function App() {
     >
       <div className="flex flex-col gap-4 py-8 pl-8 pr-4 basis-1/3">
         <div className="flex flex-row items-end gap-2">
-          <div className="w-full">
-            <label
-              htmlFor="images-path"
-              className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Path to images
-            </label>
-            <div className="relative rounded-md shadow-sm">
-              <input
-                type="text"
-                name="images-path"
-                id="images-path"
-                className="focus:ring-blue-300 focus:border-blue-300 block w-full px-5 sm:text-sm bg-slate-50 border-gray-300 rounded-md cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                placeholder="Select path to images..."
-                disabled
-                readOnly
-              />
-            </div>
-          </div>
+          <Input
+            type="text"
+            id="images-path"
+            label="Path to images"
+            placeholder="Select path to images..."
+            disabled
+            fullWidth
+          />
           <Button
             variant="primary"
             onClick={handleImagesPathSelectClick}
