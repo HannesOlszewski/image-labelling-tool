@@ -28,5 +28,8 @@ node_modules/
 !.yarn/sdks
 !.yarn/versions
 
+# Webpack
+.webpack/
+
+# Electron-Forge
 out/
-dist/

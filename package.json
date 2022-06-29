@@ -1,9 +1,13 @@
 {
   "name": "image-labelling-tool",
+  "productName": "image-labelling-tool",
   "version": "0.0.0",
   "description": "A tool to help label images for classification.",
-  "main": "src/main.js",
-  "author": "Hannes Olszewski",
+  "main": ".webpack/main",
+  "author": {
+    "name": "Hannes Olszewski",
+    "email": "kontakt@hannes-olszewski.dev"
+  },
   "license": "MIT",
   "packageManager": "yarn@3.2.1",
   "scripts": {
@@ -11,8 +15,8 @@
     "watch:css": "tailwindcss -i ./src/index.css -o ./dist/index.css --watch",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "lint": "eslint src && prettier --check src",
-    "fix": "eslint --fix src && prettier --write src"
+    "lint": "eslint --ext .ts,.tsx . && prettier --check .",
+    "fix": "eslint --fix --ext .ts,.tsx . && prettier --write ."
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.63",
@@ -20,17 +24,34 @@
     "@electron-forge/maker-rpm": "6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "6.0.0-beta.63",
     "@electron-forge/maker-zip": "6.0.0-beta.63",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.63",
     "@tailwindcss/forms": "0.5.2",
+    "@types/react": "18.0.14",
+    "@types/react-dom": "18.0.5",
+    "@typescript-eslint/eslint-plugin": "5.30.0",
+    "@typescript-eslint/parser": "5.30.0",
+    "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "autoprefixer": "10.4.7",
+    "css-loader": "6.7.1",
     "electron": "19.0.1",
     "eslint": "8.16.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.26.0",
+    "fork-ts-checker-webpack-plugin": "7.2.11",
+    "node-loader": "2.0.0",
+    "postcss": "8.4.14",
+    "postcss-loader": "7.0.0",
     "prettier": "2.6.2",
-    "tailwindcss": "3.0.24"
+    "style-loader": "3.3.1",
+    "tailwindcss": "3.1.4",
+    "ts-loader": "9.3.1",
+    "typescript": "4.7.4"
   },
   "dependencies": {
     "electron-squirrel-startup": "1.0.0",
-    "electron-store": "8.0.1"
+    "electron-store": "8.0.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "config": {
     "forge": {
@@ -56,6 +77,27 @@
           "name": "@electron-forge/maker-rpm",
           "config": {}
         }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.ts",
+                  "name": "main_window",
+                  "preload": {
+                    "js": "./src/preload.ts"
+                  }
+                }
+              ]
+            }
+          }
+        ]
       ]
     }
   }
